@@ -61,6 +61,25 @@ void read_question()
     }
 }
 
+char confirm_correct()
+{
+    do
+    {
+        char cor;
+        scanf(" %c", &cor);
+        cor = toupper(cor);
+        if (cor == 'A' || cor == 'B' || cor == 'C' || cor == 'D')
+        {
+            return cor;
+        }
+        else 
+        {
+            printf("Please enter correct form: ");
+        }
+    } while (1);
+    
+}
+
 void player_add_question()
 {
     char q[MAX_LENGTH], ans1[MAX_LENGTH], ans2[MAX_LENGTH], ans3[MAX_LENGTH], ans4[MAX_LENGTH], cor;
@@ -69,7 +88,8 @@ void player_add_question()
     printf("Enter Answer B: "); gets(ans2);
     printf("Enter Answer C: "); gets(ans3);
     printf("Enter Answer D: "); gets(ans4);
-    printf("Choose Correct answer (A/B/C/D): "); scanf(" %c", &cor); cor = toupper(cor);
+    printf("Choose Correct answer (A/B/C/D): "); //scanf(" %c", &cor); cor = toupper(cor);
+    cor = confirm_correct();
     add_question(q, ans1, ans2, ans3, ans4, cor);
     printf("Add question successfully!");
 }
@@ -96,8 +116,8 @@ void play_game()
         }
         char ans;
         printf("Enter your answer: ");
-        scanf(" %c", &ans);
-        ans = toupper(ans);
+        //scanf(" %c", &ans); ans = toupper(ans);
+        ans = confirm_correct();
 
         if (ans == question_pool[index].correct) {
             score += score_bonus;
