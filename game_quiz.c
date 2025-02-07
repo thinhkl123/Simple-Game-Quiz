@@ -74,6 +74,13 @@ void player_add_question()
     printf("Add question successfully!");
 }
 
+void swap_question(int a, int b)
+{
+    Question temp = question_pool[a];
+    question_pool[a] = question_pool[b];
+    question_pool[b] = temp;
+}
+
 void play_game()
 {
     int score = 0;
@@ -81,7 +88,7 @@ void play_game()
     srand(time(NULL));
     for (i=0; i<question_count; i++) 
     {
-        int index = rand() % idx_question;
+        int index = rand() % (idx_question-i) + i;
         Question current_question = question_pool[index];
         printf("\nQuestion %d: %s\n", i + 1, current_question.ques);
         for (j = 0; j < 4; j++) {
@@ -99,6 +106,8 @@ void play_game()
             score -= score_decrease;
             printf("Wrong Answer! You remove %d points. Current Score: %d\n",score_decrease, score);
         }
+
+        swap_question(i, index);
     }
     printf("\nEnd! Final score: %d\n\n", score);
 }
@@ -109,7 +118,7 @@ int main()
 
     int choice;
     while (1) {
-        printf("1. Play Game\n2. Add Question\n3. Quit\nChoose an option: ");
+        printf("1. Play Game \n2. Add Question \n3. Quit \nChoose an option: ");
         scanf("%d", &choice);
         
         switch (choice)
