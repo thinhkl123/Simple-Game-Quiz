@@ -5,6 +5,8 @@
 
 #define MAX_LENGTH 256
 
+const char file_name[MAX_LENGTH] = "question_pool.txt";
+
 const int question_count = 3;
 const int score_bonus = 10;
 const int score_decrease = 5;
@@ -34,7 +36,7 @@ void add_question(char question[], char ansA[], char ansB[], char ansC[], char a
 void read_question()
 {
     FILE *f;
-    f = fopen("question_pool.txt", "r");
+    f = fopen(file_name, "r");
 
     while (!feof(f))
     {
@@ -59,6 +61,8 @@ void read_question()
         char correct = line[0];
         add_question(ques, ansA, ansB, ansC, ansD, correct);
     }
+
+    fclose(f);
 }
 
 char confirm_correct()
@@ -83,7 +87,8 @@ char confirm_correct()
 void player_add_question()
 {
     char q[MAX_LENGTH], ans1[MAX_LENGTH], ans2[MAX_LENGTH], ans3[MAX_LENGTH], ans4[MAX_LENGTH], cor;
-    printf("Enter the question: "); gets(q);
+    getchar();
+    printf("Enter the question: "); gets(q); 
     printf("Enter Answer A: "); gets(ans1);
     printf("Enter Answer B: "); gets(ans2);
     printf("Enter Answer C: "); gets(ans3);
@@ -91,7 +96,13 @@ void player_add_question()
     printf("Choose Correct answer (A/B/C/D): "); //scanf(" %c", &cor); cor = toupper(cor);
     cor = confirm_correct();
     add_question(q, ans1, ans2, ans3, ans4, cor);
-    printf("Add question successfully!");
+    
+    FILE *f;
+    f = fopen(file_name, "a");
+    fprintf(f, "\n%s\n%s\n%s\n%s\n%s\n%c", q, ans1, ans2, ans3, ans4, cor);
+    fclose(f);
+    
+    printf("Add question successfully!\n");
 }
 
 void swap_question(int a, int b)
@@ -153,7 +164,7 @@ int main()
                 printf("Sayonara!\n");
                 break;
             default:
-                printf("Wrong Input! Try again.\n");
+                printf("Wrong Choice! Try again.\n");
                 break;
         }
     }
